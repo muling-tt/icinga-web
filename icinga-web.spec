@@ -84,6 +84,10 @@ Icinga Web for Icinga Core, requires Icinga API.
 %pre
 ##############################
 
+# Add apacheuser in the icingacmd group
+  /usr/sbin/usermod -a -G icingacmd %{apacheuser}
+
+
 #uncomment if building from git
 #%{__rm} -rf %{buildroot}%{_datadir}/icinga-web/.git
 
