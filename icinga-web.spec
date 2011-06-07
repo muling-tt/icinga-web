@@ -17,7 +17,7 @@
 
 Summary: Open Source host, service and network monitoring Web UI
 Name: icinga-web
-Version: 1.4.0
+Version: 1.4.1
 Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/System
@@ -136,6 +136,9 @@ Icinga Web for Icinga Core, requires Icinga API.
 ##############################
 %changelog
 ##############################
+* Tue Jun 7 2011 Michael Friedrich - 1.4.1-1
+- update for 1.4.1
+
 * Thu May 5 2011 Michael Friedrich - 1.4.0-1
 - update for upcoming release
 
