@@ -10,4 +10,4 @@ dnl this name.
 dnl
 
 m4_define([ICINGA_VERSION], [1.4.1])
-m4_define([ICINGA_RELEASE_DATE], [2011-05-31])
+m4_define([ICINGA_RELEASE_DATE], [2011-06-08])
