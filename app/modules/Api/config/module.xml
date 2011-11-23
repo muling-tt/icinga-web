@@ -6,7 +6,13 @@
 			<settings>
 				<setting name="title">Api Module</setting>
 				<setting name="version">1.0</setting>
-				<setting name="access"></setting>		
+				<setting name="access"></setting>
+
+				<setting name="exclude_customvars">
+					<!-- <ae:parameter>PASSWORD</ae:parameter> -->
+					<!-- <ae:parameter>DN</ae:parameter> -->
+					<ae:parameter>EDB_FILTER</ae:parameter>
+				</setting>
 			</settings>
 	
 			
