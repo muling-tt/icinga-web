@@ -13,10 +13,38 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
     protected $retainedAlias = false;
     public $columns = array(
                           'PROBLEMS_OBJECT_ID'           =>        'op.object_id',
+                          
                           // Program information
-                          'PROGRAM_INSTANCE_ID'          =>        'pe.instance_id',
-                          'PROGRAM_DATE'                 =>        'pe.program_date',
-                          'PROGRAM_VERSION'              =>        'pe.program_version',
+                          // 'PROGRAM_INSTANCE_ID'          =>        'pe.instance_id',
+                          // 'PROGRAM_DATE'                 =>        'pe.program_date',
+                          // 'PROGRAM_VERSION'              =>        'pe.program_version',
+                          
+                          'PROGRAMSTATUS_ID' => 'ps.programstatus_id',
+                          'PROGRAMSTATUS_INSTANCE_ID' => 'ps.instance_id',
+                          'PROGRAMSTATUS_STATUS_UPDATE_TIME' => 'ps.status_update_time',
+                          'PROGRAMSTATUS_PROGRAM_START_TIME' => 'ps.program_start_time',
+                          'PROGRAMSTATUS_PROGRAM_END_TIME' => 'ps.program_end_time',
+                          'PROGRAMSTATUS_IS_CURRENTLY_RUNNING' => 'ps.is_currently_running',
+                          'PROGRAMSTATUS_PROCESS_ID' => 'ps.process_id',
+                          'PROGRAMSTATUS_DAEMON_MODE' => 'ps.daemon_mode',
+                          'PROGRAMSTATUS_LAST_COMMAND_CHECK' => 'ps.last_command_check',
+                          'PROGRAMSTATUS_LAST_LOG_ROTATION' => 'ps.last_log_rotation',
+                          'PROGRAMSTATUS_NOTIFICATIONS_ENABLED' => 'ps.notifications_enabled',
+                          'PROGRAMSTATUS_ACTIVE_SERVICE_CHECKS_ENABLED' => 'ps.active_service_checks_enabled',
+                          'PROGRAMSTATUS_PASSIVE_SERVICE_CHECKS_ENABLED' => 'ps.passive_service_checks_enabled',
+                          'PROGRAMSTATUS_ACTIVE_HOST_CHECKS_ENABLED' => 'ps.active_host_checks_enabled',
+                          'PROGRAMSTATUS_PASSIVE_HOST_CHECKS_ENABLED' => 'ps.passive_host_checks_enabled',
+                          'PROGRAMSTATUS_EVENT_HANDLERS_ENABLED' => 'ps.event_handlers_enabled',
+                          'PROGRAMSTATUS_FLAP_DETECTION_ENABLED' => 'ps.flap_detection_enabled',
+                          'PROGRAMSTATUS_FAILURE_PREDICTION_ENABLED' => 'ps.failure_prediction_enabled',
+                          'PROGRAMSTATUS_PROCESS_PERFORMANCE_DATA' => 'ps.process_performance_data',
+                          'PROGRAMSTATUS_OBSESS_OVER_HOSTS' => 'ps.obsess_over_hosts',
+                          'PROGRAMSTATUS_OBSESS_OVER_SERVICES' => 'ps.obsess_over_services',
+                          'PROGRAMSTATUS_MODIFIED_HOST_ATTRIBUTES' => 'ps.modified_host_attributes',
+                          'PROGRAMSTATUS_MODIFIED_SERVICE_ATTRIBUTES' => 'ps.modified_service_attributes',
+                          'PROGRAMSTATUS_GLOBAL_HOST_EVENT_HANDLER' => 'ps.global_host_event_handler',
+                          'PROGRAMSTATUS_GLOBAL_SERVICE_EVENT_HANDLER' => 'ps.global_service_event_handler',
+    
 
                           // Instance things
                           'INSTANCE_ID'                  =>        'i.instance_id',
@@ -81,10 +109,10 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                           'HOST_CONFIG_TYPE'             =>        'h.config_type',
                           'HOST_FLAP_DETECTION_ENABLED'        =>  'hs.flap_detection_enabled',
                           'HOST_PROCESS_PERFORMANCE_DATA'        =>'hs.process_performance_data',
-                          'HOST_FRESHNESS_CHECKS_ENABLED'        =>'hs.freshness_checks_enabled',
-                          'HOST_FRESHNESS_THRESHOLD'        =>     'hs.freshness_threshold',
+                          'HOST_FRESHNESS_CHECKS_ENABLED'        =>'h.freshness_checks_enabled',
+                          'HOST_FRESHNESS_THRESHOLD'        =>     'h.freshness_threshold',
                           'HOST_PASSIVE_CHECKS_ENABLED'        =>  'hs.passive_checks_enabled',
-                          'HOST_EVENT_HANDLER_ENABLED'        =>   'hs.event_handler_enabled',
+                          'HOST_EVENT_HANDLER_ENABLED'        =>   'h.event_handler_enabled',
                           'HOST_ACTIVE_CHECKS_ENABLED'        =>   'hs.active_checks_enabled',
                           'HOST_RETAIN_STATUS_INFORMATION'        =>'h.retain_status_information',
                           'HOST_RETAIN_NONSTATUS_INFORMATION'        =>'h.retain_nonstatus_information',
@@ -135,7 +163,8 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                           'HOST_CHILD_NAME'                =>      'oh.name1',
                           'HOST_CUSTOMVARIABLE_NAME'         =>        'cvsh.varname',
                           'HOST_CUSTOMVARIABLE_VALUE'        =>        'cvsh.varvalue',
-                          'HOST_IS_PENDING'       =>        '(hs.has_been_checked-hs.should_be_scheduled)*-1 as HOST_IS_PENDING',
+                          'HOST_CURRENT_PROBLEM_STATE'   =>  '(hs.current_state*(hs.problem_has_been_acknowledged-1)*(hs.scheduled_downtime_depth-1))',
+                          'HOST_IS_PENDING'       =>        '(hs.has_been_checked-hs.should_be_scheduled)*-1',
                           // Service data
 
                           'SERVICE_ID'            =>        's.service_id',
@@ -148,12 +177,12 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                           'SERVICE_NOTIFICATIONS_ENABLED'=> 'ss.notifications_enabled',
                           'SERVICE_FLAP_DETECTION_ENABLED'=>'ss.flap_detection_enabled',
                           'SERVICE_PASSIVE_CHECKS_ENABLED'=>'ss.passive_checks_enabled',
-                          'SERVICE_EVENT_HANDLER_ENABLED'=> 'ss.event_handler_enabled',
+                          'SERVICE_EVENT_HANDLER_ENABLED'=> 's.event_handler_enabled',
                           'SERVICE_ACTIVE_CHECKS_ENABLED'=> 'ss.active_checks_enabled',
                           'SERVICE_RETAIN_STATUS_INFORMATION'=>'s.retain_status_information',
                           'SERVICE_RETAIN_NONSTATUS_INFORMATION'=>'s.retain_nonstatus_information',
-                          'SERVICE_OBSESS_OVER_SERVICE'=>   'ss.obsess_over_service',
-                          'SERVICE_FAILURE_PREDICTION_ENABLED'=>'ss.failure_prediction_enabled',
+                          'SERVICE_OBSESS_OVER_SERVICE'=>   's.obsess_over_service',
+                          'SERVICE_FAILURE_PREDICTION_ENABLED'=>'s.failure_prediction_enabled',
                           'SERVICE_NOTES'        =>       's.notes',
                           'SERVICE_NOTES_URL'    =>       's.notes_url',
                           'SERVICE_ACTION_URL'   =>       's.action_url',
@@ -193,6 +222,7 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                           'SERVICE_CUSTOMVARIABLE_NAME'=> 'cvss.varname',
                           'SERVICE_CUSTOMVARIABLE_VALUE'=>'cvss.varvalue',
                           'SERVICE_STATE_COUNT'        => 'count(ss.current_state)',
+                          'SERVICE_CURRENT_PROBLEM_STATE'   =>  '(ss.current_state*(ss.problem_has_been_acknowledged-1)*(ss.scheduled_downtime_depth-1))',
                           'SERVICE_IS_PENDING'        =>  '(ss.has_been_checked-ss.should_be_scheduled)*-1',
 
                           // Config vars
@@ -353,26 +383,32 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
             case IcingaApiConstants::TARGET_INSTANCE:
                 $this->mainAlias = "i";
                 $this->setTarget("IcingaInstances");
+                $this->aliasDefs = array(
+                                        "ps" => array("src" => "i", "relation" => "programstatus", "alwaysJoin" => true)
+                );
                 break;
 
             case IcingaApiConstants::TARGET_HOST:
                 $this->mainAlias = "oh";
                 $this->setTarget("IcingaObjects");
                 $this->retainedAlias = "h";
+
                 $this->aliasDefs = array(
                                        "h"  => array("src" => "oh", "relation" => "host", "alwaysJoin" => true),
                                        "hs"  => array("src" => "h", "relation" => "status","alwaysJoin" => true),
                                        "i"   => array("src" => "h", "relation" => "instance"),
-                                       "cg"  => array("src" => "h", "relation" => "contactgroups"),
-                                       "cgm" => array("src" => "cg", "relation" => "members"),
-                                       "hg"  => array("src" => "h", "relation" => "hostgroups"),
-                                       'ohg' => array('src' => 'hg', "relation" => "object"),
-                                       "hgm" => array("src" => "h","relation" => "members"),
+                                       "cg"  => array("src" => "h", "relation" => "contactgroups", "type"=>"left"),
+                                       "cgm" => array("src" => "cg", "relation" => "members", "type"=>"left"),
+                                       "hg"  => array("src" => "h", "relation" => "hostgroups", "type"=>"left"),
+                                       'ohg' => array('src' => 'hg', "relation" => "object", "type"=>"left"),
+                                       "hgm" => array("src" => "h","relation" => "members", "type"=>"left"),
                                        "oc"  => array("src" => "cgm","relation" => "object"),
                                        "ocg"  => array("src" => "cg","relation" => "object"),
+                                       "os"     => array("src" => "s", "relation" => "object"),
+                                       "dt"   => array("src" => "h", "relation" => "scheduledDowntimes"),
                                        "cvsh"=> array("src" => "h","relation" => "customvariablestatus"),
                                        "cvsc"=> array("src" => "cgm","relation" => "customvariablestatus"),
-                                       "s" => array("src" => "os", "relation" => "service"),
+                                       "s" => array("src" => "h", "relation" => "services"),
                                        "ss" => array("src" => "s", "relation" => "status"),
 
                                        "os" => array("src" => "h", "relation" => "object")
@@ -386,16 +422,17 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                 $this->aliasDefs = array(
                                        "s"  => array("src" => "os", "relation" => "service", "alwaysJoin" => true),
                                        "i"  => array("src" => "s", "relation" => "instance"),
-                                       "cg" => array("src" => "s", "relation" => "contactgroups"),
-                                       "cgm" => array("src"=> "s", "relation" => "contacts"),
-                                       "oc"  => array("src" => "cgm","relation" => "object"),
-                                       "ocg"  => array("src" => "cg","relation" => "object"),
-                                       "cvsh"=> array("src" => "s","relation" => "customvariablestatus"),
-                                       "cvsc"=> array("src" => "cgm","relation" => "customvariablestatus"),
-                                       "ss" => array("src" => "s","relation" => "status","alwaysJoin" => true),
                                        "h"  => array("src" => "s","relation" => "host"),
                                        "hs" => array("src" => "h","relation" => "status","alwaysJoin" => true),
                                        "oh" => array("src" => "h","relation" => "object"),
+/*                                       "hcg" => array("src" => "h", "relation" => "contactgroups"),
+                                       "hcgm" => array("src" => "h", "relation" => "contacts"),*/
+                                       "cg" => array("src" => "s", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "cvsh"=> array("src" => "s","relation" => "customvariablestatus"),
+                                       "cvsc"=> array("src" => "cgm","relation" => "customvariablestatus"),
+                                       "ss" => array("src" => "s","relation" => "status","alwaysJoin" => true),
+
                                        "sg" => array(
                                            "src" => "s",
                                            "relation" => "servicegroups",
@@ -411,8 +448,10 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                            "relation" => "object",
                                            "type"=>"left"
                                        ),
-                                       "hg"  => array("src" => "h", "relation" => "hostgroups"),
-                                       "hgm" => array("src" => "h","relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object"),
+                                       "hg"  => array("src" => "h", "relation" => "hostgroups", "type"=>"left"),
+                                       "hgm" => array("src" => "h","relation" => "members", "type"=>"left"),
                                        "ohg" => array("src" => "hg","relation" => "object"),
                                        "cvsh" => array("src" => "h","relation"=> "customvariablestatus"),
                                        "cvss"=> array("src" => "s","relation" => "customvariablestatus"),
@@ -431,7 +470,11 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "s"     => array("src" => "h", "relation" => "services"),
                                        "sg"    => array("src" => "s", "relation" => "servicegroups"),
                                        "hs"    => array("src" => "hgm", "relation" => "status"),
-                                       "oh"    => array("src" => "hgm", "relation" => "object")
+                                       "oh"    => array("src" => "hgm", "relation" => "object"),
+                                       "cg" => array("src" => "hgm", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
                 break;
 
@@ -445,7 +488,11 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "s"     => array("src" => "sg", "relation" => "members"),
                                        "hg"    => array("src" => "h", "relation"=>"hostgroups"),
                                        "h"     => array("src" => "s", "relation" => "host"),
-                                       "os"    => array("src" => "sgm", "relation" => "object")
+                                       "os"    => array("src" => "sgm", "relation" => "object"),
+                                       "cg" => array("src" => "sgm", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                        );
                 break;
 
@@ -456,7 +503,8 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                 $this->aliasDefs = array(
                                        "ocg"   => array("src" => "cg", "relation" => "object"),
                                        "cgm"   => array("src" => "cg", "relation" => "members"),
-                                       "cvsc"    => array("src" => "cgm", "relation" => "customvariablestatus")
+                                       "cvsc"    => array("src" => "cgm", "relation" => "customvariablestatus"),
+                                       "oc"  => array("src" => "cgm","relation" => "object")
                                    );
                 break;
 
@@ -514,15 +562,15 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                 $this->aliasDefs = array(
                                        "h"  => array("src" => "oh", "relation" => "host","alwaysJoin"=>true),
                                        "s"  => array("src" => "h", "relation" => "services"),
-                                       "oh" => array("src" => "hs", "relation" => "hostobject", "alwaysJoin" => true),
+                                       "oh" => array("src" => "hs", "relation" => "hostobject", "alwaysJoin" => true, "with"=>"oh.is_active=1"),
                                        "i"  => array("src" => "h", "relation" => "instance"),
                                        "cg" => array("src" => "h", "relation" => "contactgroups"),
                                        "ocg"=> array("src" => "cg", "relation" => "object"),
                                        "cgm"=> array("src" => "cg", "relation" => "members"),
                                        "oc" => array("src" => "cgm", "relation" => "object"),
-                                       "hg" => array("src" => "h", "relation" => "hostgroups"),
-                                       "hgm" => array("src" => "hg", "relation" => "members"),
-                                       "ohg" => array("src" => "hg", "relation" => "object"),
+                                       "hg" => array("src" => "h", "relation" => "hostgroups","type"=>"left"),
+                                       "hgm" => array("src" => "hg", "relation" => "members","type"=>"left"),
+                                       "ohg" => array("src" => "hg", "relation" => "object","type"=>"left"),
                                        "cvsh"=> array("src" => "h", "relation" => "customvariablestatus"),
                                        "cvsc"=> array("src" => "cgm", "relation" => "customvariablestatus"),
                                    );
@@ -539,7 +587,7 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                 $this->forceGroup[] = "(ss.has_been_checked-ss.should_be_scheduled)*-1";
                 $this->aliasDefs = array(
                                        "s"  => array("src" => "os", "relation" => "service", "alwaysJoin" => true),
-                                       "os" => array("src" => "ss", "relation" => "serviceobject", "alwaysJoin" => true),
+                                       "os" => array("src" => "ss", "relation" => "serviceobject", "alwaysJoin" => true, "with"=>"os.is_active=1"),
                                        "i"  => array("src" => "s", "relation" => "instance"),
                                        "cg" => array("src" => "s", "relation" => "contactgroups"),
                                        "ocg"=> array("src" => "cg", "relation" => "object"),
@@ -592,9 +640,9 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "ocg"=> array("src" => "cg", "relation" => "object"),
                                        "cgm"=> array("src" => "cg", "relation" => "members"),
                                        "oc" => array("src" => "cgm", "relation" => "object"),
-                                       "hg" => array("src" => "s", "relation" => "hostgroups"),
-                                       "hgm" => array("src" => "sg", "relation" => "members"),
-                                       "ohg" => array("src" => "sg", "relation" => "object"),
+                                       "hg" => array("src" => "h", "relation" => "hostgroups"),
+                                       "hgm" => array("src" => "hg", "relation" => "members"),
+                                       "ohg" => array("src" => "hg", "relation" => "object"),
                                        "cvss"=> array("src" => "s","relation" => "customvariablestatus"),
                                        "cvsh"=> array("src" => "h", "relation" => "customvariablestatus"),
                                        "cvsc"=> array("src" => "cgm", "relation" => "customvariablestatus")
@@ -618,7 +666,10 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "hg" => array("src" => "h", "relation" => "hostgroups"),
                                        "ohg" => array("src" => "hg", "relation" => "object"),
                                        "cvsh" => array("src" => "h","relation"=> "customvariablestatus"),
-
+                                       "cg" => array("src" => "h", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
 
                                    );
                 break;
@@ -684,7 +735,9 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "cg"   => array("src" => "s", "relation" => "contactgroups"),
                                        "cvsh" => array("src" => "h","relation"=> "customvariablestatus"),
                                        "cvss"=> array("src" => "s","relation" => "customvariablestatus"),
-
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
                 break;
 
@@ -706,7 +759,10 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "s"   => array("src" => "hgm", "relation" => "services"),
                                        "hs"    => array("src" => "hgm", "relation" => "status"),
                                        "cg"   => array("src" => "h", "relation" => "contactgroups"),
-                                       "oh"    => array("src" => "hgm", "relation" => "object")
+                                       "oh"    => array("src" => "hgm", "relation" => "object"),
+                                       "cgm" => array("src"=> "h", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
 
                 break;
@@ -726,21 +782,70 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "ohg"   => array("src" => "hg", "relation" => "object"),
                                        "ss"   => array("src" => "sgm", "relation" => "status"),
                                        "cg"   => array("src" => "s", "relation" => "contactgroups"),
-                                       "os"    => array("src" => "sgm", "relation" => "object")
+                                       "os"    => array("src" => "sgm", "relation" => "object"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
                 break;
 
             case IcingaApiConstants::TARGET_COMMENT:
                 $this->mainAlias = "co";
+                $this->setDistinct(false);
                 $this->aliasDefs = array(
-                                       "s" => array("src" => "co", "relation" => "service"),
-                                       "h" => array("src" => "co", "relation" => "host"),
+                                       "i"   => array("src" => "co", "relation" => "instance"),
+                                       "s" => array("src" => "co", "relation" => "service","type"=>"left"),
+                                       "h" => array("src" => "co", "relation" => "host","type"=>"left"),
                                        "sh" => array("src" => "s", "relation" => "object"),
-                                       "oh" => array("src" => "h", "relation" => "object"),
-                                       "os" => array("src" => "s", "relation" => "object"),
+                                       "oh" => array("src" => "h", "relation" => "object","type"=>"left"),
+                                       "os" => array("src" => "s", "relation" => "object","type"=>"left"),
                                        "hs" => array("src" => "h", "relation" => "status"),
-                                       "ss" => array("src" => "s", "relation" => "status")
+                                       "ss" => array("src" => "s", "relation" => "status"),
+                                       "cg" => array("src" => "h", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
+                $this->setTarget("IcingaComments");
+                break;
+
+            case IcingaApiConstants::TARGET_HOST_COMMENT:
+                $this->mainAlias = "co";
+                $this->setDistinct(false);
+                $this->aliasDefs = array(
+                                       "i"   => array("src" => "co", "relation" => "instance"),
+                                       "h" => array("src" => "co", "relation" => "host","type"=>"inner", "alwaysJoin" => true),
+                                       "s" => array("src" => "h", "relation" => "service","type"=>"left"),
+                                       "sh" => array("src" => "s", "relation" => "object"),
+                                       "oh" => array("src" => "h", "relation" => "object","type"=>"left"),
+                                       "os" => array("src" => "s", "relation" => "object","type"=>"left"),
+                                       "hs" => array("src" => "h", "relation" => "status"),
+                                       "ss" => array("src" => "s", "relation" => "status"),
+                                       "cg" => array("src" => "h", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
+                                   );
+                $this->setTarget("IcingaComments");
+                break;
+
+            case IcingaApiConstants::TARGET_SERVICE_COMMENT:
+                $this->mainAlias = "co";
+                $this->setDistinct(false);
+                $this->aliasDefs = array(
+                           "i"   => array("src" => "co", "relation" => "instance"),
+                           "s" => array("src" => "co", "relation" => "service","type"=>"inner", "alwaysJoin"=>true),
+                           "h" => array("src" => "s", "relation" => "host","type"=>"left"),
+                           "sh" => array("src" => "s", "relation" => "object"),
+                           "oh" => array("src" => "h", "relation" => "object","type"=>"left"),
+                           "os" => array("src" => "s", "relation" => "object","type"=>"left"),
+                           "hs" => array("src" => "h", "relation" => "status"),
+                           "ss" => array("src" => "s", "relation" => "status"),
+                           "cg" => array("src" => "h", "relation" => "contactgroups"),
+                           "cgm" => array("src"=> "cg", "relation" => "members"),
+                           "oc"  => array("src" => "cgm","relation" => "object"),
+                           "ocg"  => array("src" => "cg","relation" => "object")
+                       );
                 $this->setTarget("IcingaComments");
                 break;
 
@@ -770,7 +875,7 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                            "type" => "left"
                                        ),
                                        "cg" => array("src" => "s", "relation" => "contactgroups"),
-                                       "cgm" => array("src"=> "s", "relation" => "contacts"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
                                        "oc"  => array("src" => "cgm","relation" => "object"),
                                        "ocg"  => array("src" => "cg","relation" => "object"),
                                        "cvsh"=> array("src" => "s","relation" => "customvariablestatus"),
@@ -856,8 +961,11 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
                                        "hg"  => array("src" => "h", "relation" => "hostgroups"),
                                        "hgm" => array("src" => "h","relation" => "members"),
                                        "ohg" => array("src" => "hg","relation" => "object"),
-                                       "hs"  => array("src" => "h", "relation" => "status")
-
+                                       "hs"  => array("src" => "h", "relation" => "status"),
+                                       "cg" => array("src" => "h", "relation" => "contactgroups"),
+                                       "cgm" => array("src"=> "cg", "relation" => "members"),
+                                       "oc"  => array("src" => "cgm","relation" => "object"),
+                                       "ocg"  => array("src" => "cg","relation" => "object")
                                    );
                 break;
 
@@ -894,13 +1002,28 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
     }
 
 
+    private function checkForPending(&$cols) {
+        if(!is_array($cols)) {
+            if($cols == "HOST_CURRENT_STATE")
+                $cols = array($cols,"HOST_IS_PENDING");
+            if($cols == "SERVICE_CURRENT_STATE")
+                $cols = array($cols,"SERVICE_IS_PENDING");
+        } else {
+            if(in_array("HOST_CURRENT_STATE",$cols))
+                $cols[] = "HOST_IS_PENDING";
+            if(in_array("SERVICE_CURRENT_STATE",$cols))
+                $cols[] = "SERVICE_IS_PENDING";
+        }            
+    }
+    
     public function setResultColumns($cols) {
+        $this->checkForPending($cols);
         if (is_array($cols)) {
             $this->resultColumns = array_merge($this->resultColumns,$cols);
         } else {
             $this->resultColumns[] = $cols;
         }
-
+        
         $this->setFields($cols,true);
     }
 
@@ -944,10 +1067,11 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
             if($this->retainedAlias) {      
                 $o->andWhere($this->retainedAlias.".config_type= ?",$db->useRetained() ? "1" : "0");
 
-            }                   
-		
-                
+            }                               
         }
+        if($this->getTarget() == "IcingaObjects")
+            $o->andWhere($this->mainAlias.".is_active = 1");
+
         foreach($this->forceGroup as $group) {
             $o->addGroupBy($group);
         }
@@ -989,22 +1113,22 @@ class Api_Store_LegacyLayer_TargetModifierModel extends IcingaStoreTargetModifie
 
 
     protected $defaultAliasDefs = array(
-                                      "i"  => array("src" => "dt", "relation" => "instance"),
-                                      "os" => array("src" => "s", "relation" => "object"),
-                                      "ss" => array("src" => "s","relation" => "status"),
-                                      "oh" => array("src" => "h","relation" => "object"),
-                                      "sg" => array("src" => "s","relation" => "servicegroups"),
-                                      "sgm" => array("src" => "sg", "relation" => "members"),
-                                      "osg" => array("src" => "sg", "relation" => "object"),
-                                      "hg"  => array("src" => "h", "relation" => "hostgroups"),
-                                      "hgm" => array("src" => "h","relation" => "members"),
-                                      "ohg" => array("src" => "hg","relation" => "object"),
+      "i"  => array("src" => "dt", "relation" => "instance"),
+      "os" => array("src" => "s", "relation" => "object"),
+      "ss" => array("src" => "s","relation" => "status"),
+      "oh" => array("src" => "h","relation" => "object"),
+      "sg" => array("src" => "s","relation" => "servicegroups", "type" => "left"),
+      "sgm" => array("src" => "sg", "relation" => "members", "type" => "left"),
+      "osg" => array("src" => "sg", "relation" => "object", "type" => "left"),
+      "hg"  => array("src" => "h", "relation" => "hostgroups", "type" => "left"),
+      "hgm" => array("src" => "h","relation" => "members", "type" => "left"),
+      "ohg" => array("src" => "hg","relation" => "object", "type" => "left"),
 
-                                      "hs"  => array("src" => "h", "relation" => "status"),
-                                      "cvss"=> array("src" => "s","relation" => "customvariablestatus"),
-                                      "cvsh"=> array("src" => "h", "relation" => "customvariablestatus")
+      "hs"  => array("src" => "h", "relation" => "status"),
+      "cvss"=> array("src" => "s","relation" => "customvariablestatus"),
+      "cvsh"=> array("src" => "h", "relation" => "customvariablestatus")
 
-                                  );
+  );
 
     protected $aliasDefs = array();
 }
