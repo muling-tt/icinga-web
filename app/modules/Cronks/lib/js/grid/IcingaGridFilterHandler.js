@@ -321,7 +321,9 @@ Cronk.util.GridFilterWindow = function() {
 	
 				// Objects				
 				oWindow().destroy();
-				oCoPanel && oCoPanel.destroy();
+				if (oCoPanel) {
+					oCoPanel.destroy();
+				}
 				
 				// Data
 				oRestrictions = {};
