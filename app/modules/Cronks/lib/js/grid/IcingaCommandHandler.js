@@ -467,5 +467,4 @@ IcingaCommandHandler.prototype = {
 		});
 	}
 	
-}
-
+};

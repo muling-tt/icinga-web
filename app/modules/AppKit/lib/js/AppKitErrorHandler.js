@@ -284,7 +284,7 @@ Ext.ns("AppKit.errorHandler");
             });
             
             
-        }
+        };
     
 		var handleError = function(response,proxy) {
 			switch(response.status) {	

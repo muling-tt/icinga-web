@@ -191,7 +191,7 @@ Cronk.grid.ColumnRenderer = {
     
     selectableColumn : function(cfg) {
         return function(value, metaData, record, rowIndex, colIndex, store) {
-            metaData.css += ' x-icinga-grid-cell-selectable'
+            metaData.css += ' x-icinga-grid-cell-selectable';
 			return value;
 		}
     }

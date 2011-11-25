@@ -61,7 +61,7 @@ Cronk.defaults.SETTINGS = {
 	
 	// Some default panel configs
 	layout: 		'fit'
-}
+};
 
 Cronk.defaults.CONFIG_ITEMS = [
 	'loaderUrl', 'params', 'crname',
@@ -338,6 +338,6 @@ Cronk.getIconClass = function(image_id) {
 	if (suffixArray.length == 2) {
 		return prefix + String(suffixArray[1]).replace(/ /g, '-');
 	}
-}
+};
 
 Ext.reg('cronk', Cronk.Container);
