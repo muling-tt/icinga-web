@@ -73,16 +73,24 @@ class Api_ApiCommandAction extends IcingaApiBaseAction {
         $api->setData(array_merge($data,array("data"=>$data)));
         $api->setSelection($targets);
         
+        $view = 'Success';
+        
         // send it
         try {
             $api->dispatchCommands();
             $this->setAttribute("success",true);
         } catch (IcingaApiCommandException $e) {
             $this->setAttribute("error",$e->getMessage());
-            return 'Error';
+            $view = 'Error';
         }
 
-        return 'Success';
+        if ($rd->getParameter("authkey") && $this->getContext()
+        ->getUser()->isAuthenticated()) {
+            $this->getContext()->getUser()->doLogout();
+            session_destroy();
+        }
+        
+        return $view;
     }
     
     
