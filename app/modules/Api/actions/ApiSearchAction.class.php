@@ -55,6 +55,7 @@ class Api_ApiSearchAction extends IcingaApiBaseAction {
         $validation = $this->getContainer()->getValidationManager();
 
         if (!$user->isAuthenticated() && $authKey) {
+            
             try {
                 $user->doAuthKeyLogin($authKey);
             } catch (Exception $e) {
@@ -112,6 +113,13 @@ class Api_ApiSearchAction extends IcingaApiBaseAction {
         }
 
         $rd->setParameter("searchResult", $res);
+        
+        if ($rd->getParameter("authkey") && $this->getContext()
+            ->getUser()->isAuthenticated()) {
+            $this->getContext()->getUser()->doLogout();
+            session_destroy();
+        } 
+        
         return $this->getDefaultViewName();
     }
 
