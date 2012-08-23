@@ -88,6 +88,12 @@
                 <select>ohg.name1 AS hostgroup_name</select>
             </filter>
 
+            <filter name="hostgroup_object_id" type="dql">                      
+                <join>h.hostgroups hg</join>                                    
+                <join>hg.object ohg</join>                                      
+                <select>ohg.object_id AS hostgroup_object_id</select>           
+            </filter> 
+
             <filter name="host_is_pending" type="dql">
                 <resolve>((hs.has_been_checked-1)*-1)</resolve>
                 <select>((hs.has_been_checked-1)*-1) AS host_is_pending</select>
