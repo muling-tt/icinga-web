@@ -329,9 +329,9 @@ Cronk.util.CronkTabHelper = Ext.extend(Object, {
             
             c.store.sort(data.groupField,data.groupDir);
             
-            if(c.parentCmp.sort_array)  {
-                c.parentCmp.sort_array[0]['direction'] = data.groupDir;
-                c.parentCmp.sort_array[0]['field'] = data.groupField;
+            if(c.sort_array)  {
+                c.sort_array[0]['direction'] = data.groupDir;
+                c.sort_array[0]['field'] = data.groupField;
             }
             
             c.store.load();
