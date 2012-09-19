@@ -333,8 +333,8 @@ Cronk.util.CronkTabHelper = Ext.extend(Object, {
                 c.sort_array[0]['direction'] = data.groupDir;
                 c.sort_array[0]['field'] = data.groupField;
             }
-            
-            c.store.load();
+            if(c.store.proxy) // ignore local stores            
+                c.store.load();
             
         });
         
